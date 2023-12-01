@@ -1,13 +1,17 @@
 import bcrypt
 
+correct_pass = False
+user_pass = b''
 password = b'supersecretpassword'
-password2 = b'supersecretpasswordt'
+salt = bcrypt.gensalt()
+hashed_pass = bcrypt.hashpw(password, salt)
 
-hashed = bcrypt.hashpw(password, bcrypt.gensalt())
+while not(correct_pass):
+    user_pass = input("\nEnter your password: ")
+    user_pass = str.encode(user_pass)
 
-if bcrypt.checkpw(password, hashed):
-    print("Correct")
-else:
-    print("Wrong Password")
-
-print(hashed)
+    if bcrypt.checkpw(user_pass, hashed_pass):
+        correct_pass = True
+        print("\nAccess Granted, Welcome back Tomi")
+    else:
+        print("\nSorry, Wrong Password")
